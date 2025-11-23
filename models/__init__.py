@@ -1,6 +1,7 @@
-from models.user import User
-from models.transaction import Transaction
-from models.budget import Budget
-from models.recurring_transaction import RecurringTransaction
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
 
-__all__ = ['User', 'Transaction', 'Budget', 'RecurringTransaction']
+class Base(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=Base)

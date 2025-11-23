@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app import db
+from models import db
 from models.transaction import Transaction
 from services.ai_insights import get_ai_insights
 from services.pdf_parser import parse_transaction_pdf

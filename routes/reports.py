@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import login_required, current_user
-from app import db
+from models import db
 from models.transaction import Transaction
 from datetime import datetime, date
 from sqlalchemy import func

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user, login_user
-from app import db
+from models import db
 from models.user import User
 from models.transaction import Transaction
 from services.ai_insights import get_ai_insights
