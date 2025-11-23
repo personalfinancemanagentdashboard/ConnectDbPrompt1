@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Budget - SmartFinanceAI{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Edit Budget</h1>
+        <a href="{{ url_for('budgets.index') }}" class="btn btn-outline-secondary">Back to Budgets</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <form method="POST" action="{{ url_for('budgets.edit_budget', budget_id=budget.id) }}">
+                <div class="mb-4">
+                    <label class="form-label fw-medium">Category</label>
+                    <input type="text" class="form-control" value="{{ budget.category }}" disabled>
+                    <small class="text-muted">Category cannot be changed</small>
+                </div>
+
+                <div class="mb-4">
+                    <label for="period" class="form-label fw-medium">Budget Period</label>
+                    <select class="form-select" id="period" name="period" required>
+                        <option value="monthly" {% if budget.period == 'monthly' %}selected{% endif %}>Monthly</option>
+                        <option value="weekly" {% if budget.period == 'weekly' %}selected{% endif %}>Weekly</option>
+                        <option value="yearly" {% if budget.period == 'yearly' %}selected{% endif %}>Yearly</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="amount" class="form-label fw-medium">Budget Amount</label>
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" step="0.01" class="form-control" id="amount" name="amount" required value="{{ budget.amount }}">
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1 py-2">Update Budget</button>
+                    <a href="{{ url_for('budgets.index') }}" class="btn btn-outline-secondary py-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

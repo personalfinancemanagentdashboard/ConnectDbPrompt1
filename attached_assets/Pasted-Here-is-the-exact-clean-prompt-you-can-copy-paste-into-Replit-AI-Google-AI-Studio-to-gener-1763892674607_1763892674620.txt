@@ -1,0 +1,221 @@
+Here is the **exact clean prompt** you can copy–paste into **Replit AI / Google AI Studio** to generate the full MVP.
+
+---
+
+# ⭐ **FINAL PROMPT TO GENERATE THE SMARTFINANCE AI MVP**
+
+*(Copy everything below as-is)*
+
+---
+
+**PROMPT START**
+
+Build a complete **SmartFinanceAI** MVP using:
+
+* **Python 3**
+* **Flask**
+* **Flask SQLAlchemy (ORM)**
+* **SQLite database**
+* **Jinja2 templates**
+* **Bootstrap 5**
+* **Chart.js**
+* **Flask-Login authentication**
+* Clean project structure
+* REST APIs + basic AI insights
+
+I want a ready-to-run full project for **Replit**.
+
+---
+
+## ✅ **Project Name:** SmartFinanceAI — Personal Finance Tracker (Flask + SQLite MVP)
+
+---
+
+## 📦 **Project Structure (generate exactly this)**
+
+```
+smartfinanceai/
+│── app.py
+│── config.py
+│── requirements.txt
+│── /instance/
+│     └── smartfinance.db
+│── /models/
+│     └── __init__.py
+│     └── user.py
+│     └── transaction.py
+│── /routes/
+│     └── __init__.py
+│     └── auth.py
+│     └── dashboard.py
+│     └── api.py
+│── /services/
+│     └── ai_insights.py
+│── /static/
+│     └── styles.css
+│── /templates/
+      └── base.html
+      └── login.html
+      └── register.html
+      └── dashboard.html
+      └── add_transaction.html
+```
+
+---
+
+## 🔧 **Requirements**
+
+### 👉 Backend
+
+* Flask
+* Flask_SQLAlchemy
+* Flask-Login
+* Werkzeug password hashing
+* SQLite database stored in `/instance/smartfinance.db`
+
+### 👉 Models
+
+### **User**
+
+* id (PK)
+* username
+* email
+* password_hash
+
+### **Transaction**
+
+* id (PK)
+* user_id (FK)
+* amount (float)
+* category (string)
+* transaction_type (income/expense)
+* date
+* description
+
+---
+
+## 🧩 Features to Implement
+
+### 1️⃣ **Authentication Module**
+
+* `/register` (POST/GET)
+* `/login`
+* `/logout`
+* hashed passwords
+* login_required decorators
+
+---
+
+### 2️⃣ **Dashboard**
+
+* List recent transactions
+* Total income vs expense
+* Category-wise chart
+* Line chart for monthly spending
+* Show AI insights
+
+---
+
+### 3️⃣ **Add Transaction Page**
+
+* Form fields:
+
+  * transaction_type (income/expense)
+  * category
+  * amount
+  * description
+  * date
+
+---
+
+### 4️⃣ **AI Insights Service**
+
+File: `/services/ai_insights.py`
+
+Implement simple logic:
+
+* If expenses > income → return “High spending alert”
+* Identify top expense category
+* Estimate savings
+* Return insights list
+
+---
+
+### 5️⃣ **REST API Endpoints**
+
+Prefix: `/api/v1`
+
+* `POST /auth/register`
+* `POST /auth/login`
+* `GET /transactions`
+* `POST /transactions/create`
+* `GET /insights`
+
+Return JSON.
+
+---
+
+## 🖥️ **HTML Templates**
+
+### **base.html**
+
+* Bootstrap navbar
+* Block content layout
+
+### **login.html / register.html**
+
+Simple forms
+
+### **dashboard.html**
+
+* Cards: income, expense, balance
+* Pie chart for categories
+* Bar/Line chart for monthly spending
+* AI insights box
+
+### **add_transaction.html**
+
+Form page
+
+---
+
+## 📄 **requirements.txt**
+
+Include:
+
+```
+flask
+flask_sqlalchemy
+flask_login
+werkzeug
+python-dotenv
+```
+
+---
+
+## 🧪 Testing (optional)
+
+Generate `/tests` folder with:
+
+* `test_auth.py`
+* `test_transactions.py`
+
+---
+
+## 🚀 **Output Format**
+
+Return the final answer as **separate code blocks for each file**, exactly matching the folder structure above.
+
+Ensure the generated project:
+✔ correct Flask app structure
+✔ runs using `flask --app app.py --debug run`
+✔ database initializes automatically if not present
+✔ API & UI fully working
+
+---
+
+**PROMPT END**
+
+---
+
+If you want, I can also generate the **entire project code right now**.

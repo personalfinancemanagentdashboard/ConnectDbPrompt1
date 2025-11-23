@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}All Transactions - SmartFinanceAI{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="max-width: 1200px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">All Transactions</h1>
+        <a href="{{ url_for('dashboard.add_transaction') }}" class="btn btn-primary">Add New Transaction</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            {% if transactions %}
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.date.strftime('%Y-%m-%d') }}</td>
+                            <td><span class="badge bg-secondary">{{ transaction.category }}</span></td>
+                            <td>{{ transaction.description or '-' }}</td>
+                            <td>
+                                <span class="badge {% if transaction.transaction_type == 'income' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ transaction.transaction_type.capitalize() }}
+                                </span>
+                            </td>
+                            <td class="text-end fw-semibold {% if transaction.transaction_type == 'income' %}text-success{% else %}text-danger{% endif %}">
+                                ₹{{ "%.2f"|format(transaction.amount) }}
+                            </td>
+                            <td class="text-end">
+                                <a href="{{ url_for('dashboard.edit_transaction', transaction_id=transaction.id) }}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                <form method="POST" action="{{ url_for('dashboard.delete_transaction', transaction_id=transaction.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <p class="text-muted mb-3">No transactions yet.</p>
+                <a href="{{ url_for('dashboard.add_transaction') }}" class="btn btn-primary">Add Your First Transaction</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

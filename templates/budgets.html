@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Budgets - SmartFinanceAI{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="max-width: 1200px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Budget Tracking</h1>
+        <a href="{{ url_for('budgets.add_budget') }}" class="btn btn-primary">Create New Budget</a>
+    </div>
+
+    {% if budget_data %}
+    <div class="row g-4">
+        {% for item in budget_data %}
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="card-title mb-1">{{ item.budget.category }}</h5>
+                            <small class="text-muted text-uppercase">{{ item.budget.period }}</small>
+                        </div>
+                        <div class="text-end">
+                            <a href="{{ url_for('budgets.edit_budget', budget_id=item.budget.id) }}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                            <form method="POST" action="{{ url_for('budgets.delete_budget', budget_id=item.budget.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this budget?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="fw-semibold">Budget: ₹{{ "%.2f"|format(item.budget.amount) }}</span>
+                            <span class="fw-semibold {% if item.spent > item.budget.amount %}text-danger{% else %}text-success{% endif %}">
+                                Spent: ₹{{ "%.2f"|format(item.spent) }}
+                            </span>
+                        </div>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-{{ item.status }}" role="progressbar" 
+                                 style="width: {% if item.percentage > 100 %}100{% else %}{{ item.percentage }}{% endif %}%" 
+                                 aria-valuenow="{{ item.percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ "%.0f"|format(item.percentage) }}%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <small class="text-muted">Remaining</small>
+                            <div class="fw-semibold {% if item.remaining < 0 %}text-danger{% else %}text-success{% endif %}">
+                                ₹{{ "%.2f"|format(item.remaining) }}
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            {% if item.spent > item.budget.amount %}
+                            <span class="badge bg-danger">Over Budget!</span>
+                            {% elif item.percentage > 80 %}
+                            <span class="badge bg-warning">Nearing Limit</span>
+                            {% else %}
+                            <span class="badge bg-success">On Track</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card">
+        <div class="card-body text-center py-5">
+            <h5 class="text-muted mb-3">No budgets created yet</h5>
+            <p class="text-muted mb-4">Start tracking your spending by creating budget limits for different categories.</p>
+            <a href="{{ url_for('budgets.add_budget') }}" class="btn btn-primary">Create Your First Budget</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

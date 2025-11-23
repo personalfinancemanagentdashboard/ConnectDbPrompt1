@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Register - SmartFinanceAI{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-lg" style="max-width: 400px; width: 100%;">
+        <div class="card-body p-5">
+            <div class="text-center mb-4">
+                <h1 class="h3 mb-2 fw-bold">Create Account</h1>
+                <p class="text-muted">Start managing your finances</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-medium">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-medium">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-medium">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Create Account</button>
+
+                <div class="text-center">
+                    <p class="text-muted mb-0">Already have an account? 
+                        <a href="{{ url_for('auth.login') }}" class="text-primary text-decoration-none fw-medium">Sign In</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
