@@ -2,7 +2,7 @@
 
 ## Overview
 
-SmartFinanceAI is a Flask-based personal finance management application that helps users track income, expenses, budgets, and recurring transactions. The system provides financial insights through an AI-powered analytics service and offers visual reporting through charts and data exports. Built with Python/Flask, it uses SQLAlchemy ORM for database management and provides both web UI and REST API interfaces.
+SmartFinanceAI is a Flask-based personal finance management application that helps users track income, expenses, budgets, and recurring transactions. The system provides financial insights through an AI-powered analytics service and offers visual reporting through charts and data exports. Built with Python/Flask, it uses SQLAlchemy ORM for database management and provides both web UI and REST API interfaces. The application supports PDF transaction imports from bank statements and displays all financial data in Indian Rupee (₹) currency format.
 
 ## User Preferences
 
@@ -36,7 +36,7 @@ Preferred communication style: Simple, everyday language.
 - Factory pattern via `create_app()` for application initialization
 - Blueprint organization by feature domain:
   - `auth_bp`: User authentication (login, register, logout)
-  - `dashboard_bp`: Main dashboard and transaction management
+  - `dashboard_bp`: Main dashboard, transaction management, and PDF upload
   - `api_bp`: RESTful API endpoints (v1 prefixed)
   - `budgets_bp`: Budget creation and tracking
   - `reports_bp`: Financial reports and CSV export
@@ -76,6 +76,14 @@ Preferred communication style: Simple, everyday language.
 - Savings rate calculation and personalized recommendations
 - Top spending category identification
 - Rule-based insights (not external AI API integration)
+- Currency display in Indian Rupee (₹) format
+
+**PDF Transaction Import** (`services/pdf_parser.py`)
+- Automatic extraction of transactions from bank statement PDFs
+- Support for multiple date formats (DD-MM-YYYY, YYYY-MM-DD, etc.)
+- Intelligent category assignment based on transaction descriptions
+- In-memory processing for security (no file storage)
+- Detection of Indian banks and services (Swiggy, Zomato, UPI, etc.)
 
 **Budget Tracking**
 - Real-time spending calculation against budget limits
@@ -108,11 +116,15 @@ Preferred communication style: Simple, everyday language.
 - **Flask-SQLAlchemy**: ORM integration for Flask
 - **Flask-Login**: User session management
 - **Werkzeug**: WSGI utilities and security helpers
+- **pypdf**: PDF parsing and transaction extraction
+- **python-dateutil**: Date parsing for various formats
 
 ### Database
-- **SQLite**: Embedded database (via SQLAlchemy)
-- Connection string from `DATABASE_URL` environment variable
-- Database file stored in `/instance/smartfinance.db` (auto-created)
+- **SQLite**: Embedded database (via SQLAlchemy) - default for local systems
+- **PostgreSQL**: Supported via `DATABASE_URL` environment variable (optional)
+- Configuration: Automatically uses SQLite if `DATABASE_URL` is not set
+- Database file: `/instance/smartfinance.db` (auto-created for SQLite)
+- Fallback configuration in `config.py`: `sqlite:///instance/smartfinance.db`
 
 ### Frontend Libraries (CDN)
 - **Bootstrap 5.3.0**: UI components and responsive grid
@@ -128,4 +140,26 @@ Preferred communication style: Simple, everyday language.
 ### Development & Deployment
 - **Python 3**: Runtime environment
 - **Replit**: Target deployment platform
+- **Local Development**: Supports SQLite for easy local setup (see LOCAL_SETUP.md)
 - No external API integrations (AI insights are rule-based calculations)
+
+## Recent Changes (November 2025)
+
+### Database Migration to SQLite
+- Added SQLite as the default database for local development
+- Configuration automatically detects environment and uses appropriate database
+- Local systems use `instance/smartfinance.db` without additional setup
+- Replit environment can still use PostgreSQL via DATABASE_URL secret
+
+### PDF Transaction Import Feature
+- New route: `/upload-pdf` for uploading bank statement PDFs
+- Automatic transaction extraction with intelligent categorization
+- Support for Indian currency (₹) and local payment services
+- In-memory processing ensures no sensitive data is stored on disk
+- Quick Actions menu in navigation for easy access
+
+### Currency Localization
+- Complete conversion from USD ($) to Indian Rupee (₹)
+- AI insights display amounts in ₹ format
+- Dashboard and all templates use ₹ symbol
+- Consistent formatting across the entire application
