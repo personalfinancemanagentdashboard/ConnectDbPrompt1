@@ -37,6 +37,17 @@
                         <a class="nav-link" href="{{ url_for('reports.index') }}">Reports</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav me-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-primary text-white px-3" href="#" id="quickActionsDropdown" role="button" data-bs-toggle="dropdown">
+                            Quick Actions
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ url_for('dashboard.add_transaction') }}">➕ Add Transaction</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('dashboard.upload_pdf') }}">📄 Upload PDF</a></li>
+                        </ul>
+                    </li>
+                </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">

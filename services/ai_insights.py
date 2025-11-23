@@ -114,7 +114,7 @@ def get_ai_insights(user_id):
         savings_rate = (savings / total_income * 100) if total_income > 0 else 0
         insights.append({
             'type': 'success',
-            'message': f'Great job! You\'re saving ${savings:.2f} ({savings_rate:.1f}% of income).',
+            'message': f'Great job! You\'re saving ₹{savings:.2f} ({savings_rate:.1f}% of income).',
             'icon': '✅'
         })
     
@@ -130,7 +130,7 @@ def get_ai_insights(user_id):
         top_category = category_data[0]
         insights.append({
             'type': 'info',
-            'message': f'Your top spending category is "{top_category[0]}" with ${top_category[1]:.2f}.',
+            'message': f'Your top spending category is "{top_category[0]}" with ₹{top_category[1]:.2f}.',
             'icon': '📊'
         })
     
@@ -169,13 +169,13 @@ def get_ai_insights(user_id):
         if trend > 0:
             insights.append({
                 'type': 'warning',
-                'message': f'Spending trend: Your expenses increased by ${abs(trend):.2f} compared to last month.',
+                'message': f'Spending trend: Your expenses increased by ₹{abs(trend):.2f} compared to last month.',
                 'icon': '📈'
             })
         else:
             insights.append({
                 'type': 'success',
-                'message': f'Spending trend: Great! You reduced expenses by ${abs(trend):.2f} compared to last month.',
+                'message': f'Spending trend: Great! You reduced expenses by ₹{abs(trend):.2f} compared to last month.',
                 'icon': '📉'
             })
     
@@ -192,7 +192,7 @@ def get_ai_insights(user_id):
         difference = seasonal_data['highest_amount'] - seasonal_data['lowest_amount']
         insights.append({
             'type': 'info',
-            'message': f'Seasonal insight: Your highest spending was in {seasonal_data["highest_month"]} (${seasonal_data["highest_amount"]:.2f}), lowest in {seasonal_data["lowest_month"]} (${seasonal_data["lowest_amount"]:.2f}).',
+            'message': f'Seasonal insight: Your highest spending was in {seasonal_data["highest_month"]} (₹{seasonal_data["highest_amount"]:.2f}), lowest in {seasonal_data["lowest_month"]} (₹{seasonal_data["lowest_amount"]:.2f}).',
             'icon': '📅'
         })
     

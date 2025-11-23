@@ -3,8 +3,11 @@ from flask_login import login_required, current_user
 from app import db
 from models.transaction import Transaction
 from services.ai_insights import get_ai_insights
+from services.pdf_parser import parse_transaction_pdf
 from datetime import datetime
 from sqlalchemy import func, extract
+import os
+from werkzeug.utils import secure_filename
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -107,6 +110,56 @@ def add_transaction():
         return redirect(url_for('dashboard.index'))
     
     return render_template('add_transaction.html')
+
+
+@dashboard_bp.route('/upload-pdf', methods=['GET', 'POST'])
+@login_required
+def upload_pdf():
+    if request.method == 'POST':
+        if 'pdf_file' not in request.files:
+            flash('No file selected.', 'danger')
+            return redirect(request.url)
+        
+        file = request.files['pdf_file']
+        
+        if file.filename == '':
+            flash('No file selected.', 'danger')
+            return redirect(request.url)
+        
+        if not file.filename.lower().endswith('.pdf'):
+            flash('Only PDF files are allowed.', 'danger')
+            return redirect(request.url)
+        
+        try:
+            transactions = parse_transaction_pdf(file)
+            
+            if not transactions:
+                flash('No transactions found in the PDF. Please check the file format.', 'warning')
+                return redirect(request.url)
+            
+            added_count = 0
+            for trans_data in transactions:
+                transaction = Transaction(
+                    user_id=current_user.id,
+                    transaction_type=trans_data['transaction_type'],
+                    category=trans_data['category'],
+                    amount=trans_data['amount'],
+                    description=trans_data['description'],
+                    date=trans_data['date']
+                )
+                db.session.add(transaction)
+                added_count += 1
+            
+            db.session.commit()
+            
+            flash(f'Successfully imported {added_count} transactions from PDF!', 'success')
+            return redirect(url_for('dashboard.index'))
+        
+        except Exception as e:
+            flash(f'Error processing PDF: {str(e)}', 'danger')
+            return redirect(request.url)
+    
+    return render_template('upload_pdf.html')
 
 
 @dashboard_bp.route('/transactions')
